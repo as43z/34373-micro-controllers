@@ -103,8 +103,10 @@ int main(void)
       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, toggle_pin);
       HAL_Delay(100);
       // Flip the GPIO_State toggle_pin.
-      if (toggle_pin == GPIO_PIN_SET) toggle_pin = GPIO_PIN_RESET;
-      else toggle_pin = GPIO_PIN_SET;
+      // Since the GPIO_State has only two states, it can be cycled by
+      // modulus: 0 % 2 = 0, 1 % 2 = 1, 2 % 2 = 0.
+      // 0 - GPIO_PIN_RESET, 1 - GPIO_PIN_SET
+      toggle_pin = (toggle_pin + 1) % 2;
 	}
 	X++;
 	HAL_Delay(1000);
