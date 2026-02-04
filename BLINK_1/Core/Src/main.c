@@ -97,6 +97,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
+	// X*2 because the operation is to turn ON-OFF, so
+	// in X=1, you would (ON,OFF); X=2 (ON;OFF;ON;OFF)
 	count = X*2;
 	while(count--)
 	{
