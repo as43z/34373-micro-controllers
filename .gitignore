@@ -1,1 +1,10 @@
-**/*/Debug
+**/*/Debug/*.elf
+**/*/Debug/*.list
+**/*/Debug/*.map
+**/*/Debug/**/*/*.elf
+**/*/Debug/**/*/*.list
+**/*/Debug/**/*/*.map
+**/*/Debug/**/*/*.o
+**/*/Debug/**/*/*.d
+**/*/Debug/**/*/*.su
+**/*/Debug/**/*/*.cyclo
