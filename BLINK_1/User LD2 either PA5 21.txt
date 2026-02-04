@@ -1,0 +1,1 @@
+User LD2: either PA5 (21) or PB13 (34) -> Arduino D13, PB13
