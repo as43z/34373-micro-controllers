@@ -56,6 +56,8 @@ void SystemClock_Config(void);
 /* USER CODE BEGIN 0 */
 
 static GPIO_PinState toggle_pin = GPIO_PIN_SET;
+static int X = 0;
+static int count = 0;
 /* USER CODE END 0 */
 
 /**
@@ -95,11 +97,17 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, toggle_pin);
-	HAL_Delay(100);
-	// Flip the GPIO_State toggle_pin.
-	if (toggle_pin == GPIO_PIN_SET) toggle_pin = GPIO_PIN_RESET;
-	else toggle_pin = GPIO_PIN_SET;
+	count = X*2;
+	while(count--)
+	{
+      HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, toggle_pin);
+      HAL_Delay(100);
+      // Flip the GPIO_State toggle_pin.
+      if (toggle_pin == GPIO_PIN_SET) toggle_pin = GPIO_PIN_RESET;
+      else toggle_pin = GPIO_PIN_SET;
+	}
+	X++;
+	HAL_Delay(1000);
     /* USER CODE END WHILE */
     /* USER CODE BEGIN 3 */
   }
