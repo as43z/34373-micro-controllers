@@ -103,6 +103,7 @@ int main(void)
 	while(count--)
 	{
       HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, toggle_pin);
+      HAL_GPIO_WritePin(USER_LED_GPIO_Port, USER_LED_Pin, toggle_pin);
       HAL_Delay(100);
       // Flip the GPIO_State toggle_pin.
       // Since the GPIO_State has only two states, it can be cycled by
@@ -113,6 +114,7 @@ int main(void)
 	X++;
 	HAL_Delay(1000);
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
   }
   /* USER CODE END 3 */
