@@ -149,10 +149,10 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+/*void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
 	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-}
+}*/
 /* USER CODE END 4 */
 
 /**
