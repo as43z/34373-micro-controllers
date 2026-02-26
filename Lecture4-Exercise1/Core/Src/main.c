@@ -44,14 +44,13 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-double value = 1.0;
-char msg[20] = "";
+char Rx_indx, Rx_data[2], Rx_Buffer[100], Transfer_cplt;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 /* USER CODE BEGIN PFP */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart);
 /* USER CODE END PFP */
 
 /* Private user code ---------------------------------------------------------*/
@@ -98,11 +97,8 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
+
     /* USER CODE BEGIN 3 */
-	sprintf(msg, "%f\r\n", value);
-	HAL_UART_Transmit(&huart2, (uint8_t*) msg, 10, 100);
-	HAL_Delay(200);
-	value = value + 0.01;
   }
   /* USER CODE END 3 */
 }
@@ -146,7 +142,46 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
+{
+	uint8_t i;
+	/* I haven't being doing this in the past exercises
+	 * but I guess it would make sense in a broader project
+	 * therefore, I will start including this safe guard.
+	 * */
+	if (huart->Instance == USART2)
+	{
+		// Uses the Rx_indx as check for reset the Rx buffer.
+		// Later when it receives carriage return it will set it to 0
+		// to process the message
+		if (Rx_indx == 0)
+		{
+			for (i = 0; i < 100; i++)
+			{
+				Rx_Buffer[i] = 0;
+			}
+			HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+		}
+		if (Rx_data[0] != 13)
+		{
+			Rx_Buffer[(int) Rx_indx++] = Rx_data[0];
+		}
+		else
+		{
+			Rx_indx = 0;
+			Transfer_cplt = 1;
+			HAL_UART_Transmit(&huart2, (uint8_t *) "\n\r", 2, 100);
+			HAL_UART_Transmit(&huart2, (uint8_t *) Rx_Buffer, strlen(Rx_Buffer), 100);
+			HAL_UART_Transmit(&huart2, (uint8_t *) "\n\r", 2, 100);
+			if (!strcmp(Rx_Buffer,"LD2 on"))
+			{
+				HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
+			}
+		}
+		HAL_UART_Receive_IT(&huart2, Rx_data, 1);
+		HAL_UART_Transmit(&huart2, (uint8_t *) Rx_data, strlen(Rx_data), 100);
+	}
+}
 /* USER CODE END 4 */
 
 /**
