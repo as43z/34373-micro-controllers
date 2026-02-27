@@ -63,6 +63,8 @@ void Error_Handler(void);
 #define USART_TX_GPIO_Port GPIOA
 #define USART_RX_Pin GPIO_PIN_3
 #define USART_RX_GPIO_Port GPIOA
+#define UART_TX_MONITOR_Pin GPIO_PIN_10
+#define UART_TX_MONITOR_GPIO_Port GPIOB
 #define LD2_Pin GPIO_PIN_13
 #define LD2_GPIO_Port GPIOB
 #define TMS_Pin GPIO_PIN_13
@@ -71,6 +73,8 @@ void Error_Handler(void);
 #define TCK_GPIO_Port GPIOA
 #define SWO_Pin GPIO_PIN_3
 #define SWO_GPIO_Port GPIOB
+#define UART_RX_MONITOR_Pin GPIO_PIN_5
+#define UART_RX_MONITOR_GPIO_Port GPIOB
 
 /* USER CODE BEGIN Private defines */
 

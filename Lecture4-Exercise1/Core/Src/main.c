@@ -89,7 +89,12 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-
+  // UART RX Interrupt must be started here in order to tell the
+  // controller to look for incoming data. Moreover 1 bit of data
+  // so we can slowly leak the incoming data.
+  HAL_UART_Receive_IT(&huart2, (uint8_t*) Rx_data, 1);
+  GPIO_PinState rx = GPIO_PIN_RESET;
+  GPIO_PinState tx = GPIO_PIN_RESET;
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -99,6 +104,10 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
+	rx = HAL_GPIO_ReadPin(USART_RX_GPIO_Port, USART_RX_Pin);
+	tx = HAL_GPIO_ReadPin(USART_TX_GPIO_Port, USART_TX_Pin);
+	HAL_GPIO_WritePin(UART_TX_MONITOR_GPIO_Port, UART_TX_MONITOR_Pin, tx);
+	HAL_GPIO_WritePin(UART_RX_MONITOR_GPIO_Port, UART_RX_MONITOR_Pin, rx);
   }
   /* USER CODE END 3 */
 }
@@ -171,14 +180,12 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 			Rx_indx = 0;
 			Transfer_cplt = 1;
 			HAL_UART_Transmit(&huart2, (uint8_t *) "\n\r", 2, 100);
-			HAL_UART_Transmit(&huart2, (uint8_t *) Rx_Buffer, strlen(Rx_Buffer), 100);
-			HAL_UART_Transmit(&huart2, (uint8_t *) "\n\r", 2, 100);
 			if (!strcmp(Rx_Buffer,"LD2 on"))
 			{
 				HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
 			}
 		}
-		HAL_UART_Receive_IT(&huart2, Rx_data, 1);
+		HAL_UART_Receive_IT(&huart2, (uint8_t *) Rx_data, 1);
 		HAL_UART_Transmit(&huart2, (uint8_t *) Rx_data, strlen(Rx_data), 100);
 	}
 }
