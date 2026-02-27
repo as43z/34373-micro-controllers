@@ -199,7 +199,14 @@ void SystemClock_Config(void)
 }
 
 /* USER CODE BEGIN 4 */
-
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+	if(htim->Instance == TIM16)
+	{
+		HAL_UART_Transmit(&huart2, (uint8_t *) "TIMEOUT\n\r", 9, 700);
+		tim_status = 0;
+	}
+}
 /* USER CODE END 4 */
 
 /**
