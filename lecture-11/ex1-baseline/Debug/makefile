@@ -60,8 +60,8 @@ all: main-build
 main-build: ex1-baseline.elf secondary-outputs
 
 # Tool invocations
-ex1-baseline.elf ex1-baseline.map: $(OBJS) $(USER_OBJS) /home/parker/Workspace/34373-microcontrollers-stm32/lecture-11/ex1-baseline/STM32F302R8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "ex1-baseline.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/parker/Workspace/34373-microcontrollers-stm32/lecture-11/ex1-baseline/STM32F302R8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ex1-baseline.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
+ex1-baseline.elf ex1-baseline.map: $(OBJS) $(USER_OBJS) /home/parker/Workspace/34373-micro-controllers/lecture-11/ex1-baseline/STM32F302R8TX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "ex1-baseline.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"/home/parker/Workspace/34373-micro-controllers/lecture-11/ex1-baseline/STM32F302R8TX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ex1-baseline.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -u _printf_float -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

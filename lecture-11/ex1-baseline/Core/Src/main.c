@@ -106,7 +106,9 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
     {
-
+      
+      HAL_GPIO_WritePin(TRACE_GPIO_Port, TRACE_Pin, GPIO_PIN_SET); 
+      HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_SET);
       // Tell TMP102 that we want to read from the temperature register
       buf[0] = REG_TEMP;
       ret = HAL_I2C_Master_Transmit(&hi2c1, TMP102_ADDR, buf, 1, HAL_MAX_DELAY);
@@ -143,6 +145,8 @@ int main(void)
       // Send out buffer (temperature or error message)
       HAL_UART_Transmit(&huart2, buf, strlen((char*)buf), HAL_MAX_DELAY);
 
+      HAL_GPIO_WritePin(LD2_GPIO_Port, LD2_Pin, GPIO_PIN_RESET);
+      HAL_GPIO_WritePin(TRACE_GPIO_Port, TRACE_Pin, GPIO_PIN_RESET); 
       // Wait
       HAL_Delay(500);
     /* USER CODE END WHILE */
@@ -227,7 +231,7 @@ void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
   /* User can add his own implementation to report the file name and line number,
-     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+     e.g.: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

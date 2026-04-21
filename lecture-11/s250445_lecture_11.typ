@@ -13,4 +13,7 @@
 #outline()
 #pagebreak()
 
+= Task: Baseline
 
+This exercise uses fundamentals for I2C communication we have seen in
+lecture 5.
